@@ -1,5 +1,7 @@
 package com.tistory.jeongdev.socchat.handler
 
+import org.json.simple.JSONObject
+import org.json.simple.parser.JSONParser
 import org.springframework.stereotype.Component
 import org.springframework.web.socket.CloseStatus
 import org.springframework.web.socket.TextMessage
@@ -33,5 +35,17 @@ class SocketHandler : TextWebSocketHandler() {
     override fun afterConnectionClosed(session: WebSocketSession, status: CloseStatus) {
         sessionMap.remove(session.id)
         super.afterConnectionClosed(session, status)
+    }
+
+    companion object fun jsonToObjectParser(jsonStr: String): JSONObject? {
+        val parser: JSONParser = JSONParser()
+        var obj: JSONObject? = null
+
+        try {
+            obj = parser.parse(jsonStr) as JSONObject?
+        } catch (e: Exception) {
+            e.printStackTrace()
+        }
+        return obj
     }
 }
