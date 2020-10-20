@@ -15,10 +15,11 @@ class SocketHandler : TextWebSocketHandler() {
     //메시지 발송
     override fun handleTextMessage(session: WebSocketSession, message: TextMessage) {
         val msg: String = message.payload
+        val obj: JSONObject? = jsonToObjectParser(msg)
         for (key in sessionMap.keys) {
             val wss: WebSocketSession? = sessionMap[key]
             try {
-                wss?.sendMessage(TextMessage(msg))
+                wss?.sendMessage(TextMessage(obj!!.toJSONString()))
             } catch (e: Exception) {
                 e.printStackTrace()
             }
@@ -29,6 +30,11 @@ class SocketHandler : TextWebSocketHandler() {
     override fun afterConnectionEstablished(session: WebSocketSession) {
         super.afterConnectionEstablished(session)
         sessionMap[session.id] = session
+        val obj = JSONObject()
+        obj["type"] = "getId"
+        obj["sessionId"] = session.id
+        session.sendMessage(TextMessage(obj.toJSONString()))
+
     }
 
     //소켓 종료
