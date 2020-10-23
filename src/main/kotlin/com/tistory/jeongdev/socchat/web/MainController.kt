@@ -5,7 +5,10 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RequestParam
+import org.springframework.web.bind.annotation.ResponseBody
 import org.springframework.web.servlet.ModelAndView
+import java.util.stream.Collectors
+
 
 @Controller
 class MainController {
@@ -23,22 +26,23 @@ class MainController {
         )
     }
 
-
     /**
      * 방 페이지
      */
     fun room(): ModelAndView {
         return ModelAndView(
-            "room"
+                "room"
         )
     }
 
     /**
      * 방 생성하기
      */
+    @RequestMapping("/createRoom")
+    @ResponseBody
     fun createRoom(@RequestParam params: HashMap<Any, Any>): List<Room> {
         val roomName = params["roomName"]
-        if(roomName != null && roomName != "") {
+        if (roomName != null && roomName != "") {
             val room = Room()
             room.roomNumber = ++roomNumber
             room.roomName = roomName as String?
@@ -47,4 +51,32 @@ class MainController {
 
         return roomList
     }
+
+    /**
+     *  방 정보 가져오기
+     */
+    @RequestMapping("/getRoom")
+    @ResponseBody
+    fun getRoom(@RequestParam params: HashMap<Any, Any>): List<Room> {
+        return roomList
+    }
+
+    /**
+     * 채팅방
+     */
+    @RequestMapping("/moveChatting")
+    fun chatting(@RequestParam params: HashMap<Any, Any>): ModelAndView {
+        val mv = ModelAndView()
+        val newList = roomList.stream().filter { o -> o.roomNumber == roomNumber }.collect(Collectors.toList())
+
+        if(newList != null && newList.size > 0) {
+            mv.addObject("roomName", params["roomName"])
+            mv.addObject("roomNumber", params["roomNumber"])
+            mv.viewName = "chat"
+        } else {
+            mv.viewName  = "room"
+        }
+        return mv
+    }
+
 }

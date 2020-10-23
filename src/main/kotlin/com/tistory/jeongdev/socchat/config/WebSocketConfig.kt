@@ -13,6 +13,6 @@ class WebSocketConfig(
 ) : WebSocketConfigurer {
 
     override fun registerWebSocketHandlers(registry: WebSocketHandlerRegistry) {
-        registry.addHandler(socketHandler, "/chatting")
+        registry.addHandler(socketHandler, "/chatting/{roomNumber}")
     }
 }
