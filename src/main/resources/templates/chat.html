@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <meta charset="UTF-8">
@@ -115,9 +115,9 @@
 </script>
 <body>
 <div id="container" class="container">
-    <h1>${roomName}의 채팅방</h1>
+    <h1 th:text="|${roomName}의 채팅방|"></h1>
     <input type="hidden" id="sessionId" value="">
-    <input type="hidden" id="roomNumber" value="${roomNumber}">
+    <input type="hidden" id="roomNumber" th:value="${roomNumber}">
 
     <div id="chating" class="chating">
     </div>
