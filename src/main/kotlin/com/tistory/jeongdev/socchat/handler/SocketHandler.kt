@@ -31,12 +31,12 @@ class SocketHandler : TextWebSocketHandler() {
                 }
             }
 
-            for (key in temp.keys) {
-                if (key == roomNumber) { //방번호일경우는 건너뛴다
+            for (i in temp.keys) {
+                if (temp[i] == roomNumber) { //방번호일경우는 건너뛴다
                     continue
                 }
 
-                val wss: WebSocketSession = temp[key] as WebSocketSession
+                val wss: WebSocketSession = temp[i] as WebSocketSession
                 try {
                     wss.sendMessage(TextMessage(obj!!.toJSONString()))
                 } catch (e: IOException) {

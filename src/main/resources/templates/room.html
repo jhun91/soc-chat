@@ -72,20 +72,9 @@
 </head>
 
 <script type="text/javascript">
-    var ws;
-    window.onload = function(){
-        getRoom();
-        createRoom();
-    }
-
-    function getRoom(){
-        commonAjax('/getRoom', "", 'post', function(result){
-            createChattingRoom(result);
-        });
-    }
-
-    function createRoom(){
+    $(document).ready(function() {
         $("#createRoom").click(function(){
+            alert('뭐여?');
             var msg = {	roomName : $('#roomName').val()	};
 
             commonAjax('/createRoom', msg, 'post', function(result){
@@ -94,7 +83,32 @@
 
             $("#roomName").val("");
         });
+    });
+
+    var ws;
+    window.onload = function(){
+        //getRoom();
+        //createRoom();
     }
+
+    function getRoom(){
+        commonAjax('/getRoom', "", 'post', function(result){
+            createChattingRoom(result);
+        });
+    }
+
+    //function createRoom(){
+        $("#createRoom").click(function(){
+            alert('뭐여?');
+            var msg = {	roomName : $('#roomName').val()	};
+
+            commonAjax('/createRoom', msg, 'post', function(result){
+                createChattingRoom(result);
+            });
+
+            $("#roomName").val("");
+        });
+    //}
 
     function goRoom(number, name){
         location.href="/moveChatting?roomName="+name+"&"+"roomNumber="+number;
