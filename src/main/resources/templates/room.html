@@ -99,7 +99,6 @@
 
     //function createRoom(){
         $("#createRoom").click(function(){
-            alert('뭐여?');
             var msg = {	roomName : $('#roomName').val()	};
 
             commonAjax('/createRoom', msg, 'post', function(result){
